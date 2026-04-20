@@ -4,6 +4,7 @@
   environment.systemPackages = with pkgs; [
     inputs.nix-alien.packages.${system}.nix-alien
     e2fsprogs
+    efibootmgr
     git
     delta
     brightnessctl

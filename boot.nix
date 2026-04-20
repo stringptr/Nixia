@@ -13,7 +13,12 @@
     "vm.laptop_mode" = 5;
   };
 
+
   boot.loader = {
+    efi = {
+      canTouchEfiVariables = true;
+      efiSysMountPoint = "/boot/nix";
+    };
     limine = {
       enable = true;
       enableEditor = true;
@@ -64,10 +69,25 @@
       image_path: boot():/EFI/Boot/bootx64.efi
       '';
     };
-    efi.canTouchEfiVariables = true;
   };
 
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-x86_64-v3;
   boot.kernelParams = [ "acpi_backlight=native" "zswap.enabled=1" "zswap.shrinker_enabled=1" "zswap.compressor=lz4" "zswap.max_pool_percent=20" "zswap.zpool=zsmalloc" "nowatchdog" "pcie_aspm.policy=powersupersave" "nvidia_drm.modeset=1" "nvidia_drm.fbdev=1" "nvidia.NVreg_EnableGpuFirmware=1" "nvidia.NVreg_PreserveVideoMemoryAllocations=1" "resume=UUID=af98cc9a-83b7-4887-bff4-8f1999300b8c" "resume_offset=36112418" "ibt=off" "psi=1" ];
+
+  system.activationScripts.syncLimineConfig = {
+    supportsDryActivation = true;
+    deps = [ "stdio" ];
+    text = ''
+      GENERATED_CONF="/boot/nix/limine/limine.conf"
+      TARGET_CONF="/boot/nix/EFI/limine/limine.conf"
+
+      if [ -f "$GENERATED_CONF" ]; then
+        echo "Patching Limine paths with /nix prefix..."
+        ${pkgs.gnused}/bin/sed 's|boot():/limine|boot():/nix/limine|g' "$GENERATED_CONF" > "$TARGET_CONF"
+      else
+        echo "Warning: Generated limine.conf not found at $GENERATED_CONF"
+      fi
+    '';
+  };
 }

@@ -49,6 +49,17 @@
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
+  fileSystems."/boot/nix" = {
+    depends = [
+      "/boot"
+    ];
+    device = "/boot/nix/";
+    fsType = "none";
+    options = [
+      "bind"
+    ];
+  };
+
   swapDevices = [{
     device = "/swap/swapfile";
   }];
