@@ -9,12 +9,12 @@
     brightnessctl
     bat
     bat-extras.batman
-    fd
     fzf
     ripdrag
+    fd
     ripgrep
-    tree-sitter
     zoxide
+    tree-sitter
     tealdeer
     lsd
     duf
