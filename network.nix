@@ -8,7 +8,14 @@
   services = {
     resolved = {
       enable = true;
-      settings.Resolve.DNS = [ "127.0.0.1:53" "[::1]:53" ];
+      settings.Resolve = {
+        DNS = [ "127.0.0.1:53" "[::1]:53" ];
+        FallbackDNS = [ "" ];
+        DNSStubListener = true;
+        DNSOverTLS = false;
+        DNSSEC = false;
+        Domains = [ "~." ];
+      };
     };
 
     dnscrypt-proxy = {
@@ -53,6 +60,7 @@
 
   environment.systemPackages = with pkgs; [
     net-tools
+    spoofdpi
   ];
 }
 
