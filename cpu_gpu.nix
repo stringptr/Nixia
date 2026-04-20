@@ -4,6 +4,7 @@
   services.xserver.videoDrivers = [ "nvidia" "amdgpu" ];
   boot.blacklistedKernelModules = [ "nouveau" ];
   nixpkgs.config.nvidia.acceptLicense = true;
+
   hardware = {
     graphics = {
       enable = true;
@@ -22,7 +23,10 @@
         amdgpuBusId = "PCI:5@0:0:0";
       };
     };
+
+    nvidia-container-toolkit.enable = true;
   };
+
 
   systemd.services.nvidia-mps = {
     description = "NVIDIA CUDA Multi-Process Service";
@@ -62,6 +66,4 @@
       '';
     };
   };
-
-  
 }
