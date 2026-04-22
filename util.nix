@@ -5,8 +5,10 @@
     inputs.nix-alien.packages.${system}.nix-alien
     e2fsprogs
     efibootmgr
+    reptyr
     git
     delta
+    gnused
     brightnessctl
     bat
     bat-extras.batman
@@ -37,8 +39,7 @@
       enable = true;
       libraries = options.programs.nix-ld.libraries.default ++ (
         with pkgs; [
-          glib
-          javaPackages.compiler.openjdk17
+          gnused
           ripdrag
         ]
       );
