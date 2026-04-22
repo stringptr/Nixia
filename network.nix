@@ -18,6 +18,11 @@
       };
     };
 
+    tailscale = {
+      enable = true;
+      openFirewall = true;
+    };
+
     dnscrypt-proxy = {
       enable = true;
       settings = {
