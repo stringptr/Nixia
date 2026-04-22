@@ -11,13 +11,21 @@
 
     zen-browser.url = "github:youwen5/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
+
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
   };
 
-  outputs = { self, nixpkgs, nix-alien, nix-index-database, ... }@inputs: 
-  {
-    nixosConfigurations.Nixia = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
+  outputs = { self, nixpkgs, nix-alien, nix-index-database, ... }@inputs:
+  let
+    system = "x86_64-linux";
+    pkgs = nixpkgs.legacyPackages.${system};
 
+    spicetify = inputs.spicetify-nix.lib.${system}.mkSpicetify pkgs {
+       # config options
+    };
+  in {
+    nixosConfigurations.Nixia = nixpkgs.lib.nixosSystem {
+      inherit system;
       specialArgs = { inherit inputs; };
 
       modules = [

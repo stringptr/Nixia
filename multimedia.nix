@@ -1,9 +1,16 @@
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 
 {
+  imports = [
+    inputs.spicetify-nix.nixosModules.spicetify
+  ];
+
   environment.systemPackages = with pkgs; [
     imv
     mpv
+    qpwgraph
+    easyeffects
+    lsp-plugins
   ];
 
   services = {
@@ -15,5 +22,16 @@
       alsa.enable = true;
       jack.enable = true;
     };
+  };
+
+  programs.spicetify =
+  let
+    spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.system};
+  in
+  {
+    enable = true;
+    enabledExtensions = with spicePkgs.extensions; [
+      adblockify
+    ];
   };
 }
