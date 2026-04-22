@@ -35,5 +35,6 @@
     podman-tui
     jre17_minimal
     crun
+    jetbrains.datagrip
   ];
 }
