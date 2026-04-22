@@ -12,7 +12,6 @@
       ./desktop.nix
       ./multimedia.nix
       ./dev.nix
-      ./noctalia.nix
     ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

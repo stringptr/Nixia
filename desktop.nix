@@ -1,6 +1,12 @@
 { inputs, pkgs, ... }:
 
 {
+  imports =
+    [
+      # ./noctalia.nix
+      ./caelestia.nix
+    ];
+
   programs = {
     niri = {
       enable = true;
@@ -18,6 +24,7 @@
     starship
     fastfetch
     thunar
+    phinger-cursors
   ];
 
   fonts.packages = with pkgs; [
@@ -27,4 +34,21 @@
     material-icons
     inter
   ];
+
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
+      config.common.default = "*";
+    };
+    icons.enable = true;
+  };
+
+  qt = {
+    enable = true;
+    platformTheme = "qt5ct";
+    style = "adwaita-dark";
+  };
+
+  gtk.iconCache.enable = true;
 }
