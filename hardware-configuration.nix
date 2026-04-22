@@ -50,10 +50,10 @@
     };
 
   fileSystems."/boot/nix" = {
-    depends = [
-      "/boot"
-    ];
-    device = "/boot/nix/";
+    # depends = [
+    #   "/boot"
+    # ];
+    device = "/boot/nix";
     fsType = "none";
     options = [
       "bind"
