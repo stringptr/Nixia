@@ -11,6 +11,7 @@
     qpwgraph
     easyeffects
     lsp-plugins
+    obs-studio
   ];
 
   services = {
