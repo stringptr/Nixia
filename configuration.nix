@@ -9,6 +9,7 @@
       ./asus.nix
       ./util.nix
       ./network.nix
+      ./user.nix
       ./desktop.nix
       ./multimedia.nix
       ./dev.nix
@@ -21,22 +22,6 @@
   time.timeZone = "Asia/Jakarta";
 
   services.libinput.enable = true;
-
-  users.users.ia = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "video" "power" "network" ];
-    uid = 1000;
-    home = "/home/ia";
-    createHome = false;
-    shell = pkgs.fish;
-    subUidRanges = [{ startUid = 100000; count = 65536; }];
-    subGidRanges = [{ startGid = 100000; count = 65536; }];
-    group = "ia";
-  };
-
-  users.groups.ia = {
-    gid = 1000;
-  };
 
   environment.variables = {
     XDG_CONFIG_HOME = "$HOME/.config";
