@@ -7,12 +7,16 @@
       ./caelestia.nix
     ];
 
+  # nixpkgs.overlays = [ inputs.yazi.overlays.default ];
+  # nix.settings.extra-substituters = [ "https://yazi.cachix.org" ];
+  # nix.settings.extra-trusted-public-keys = [ "yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k=" ];
+
   programs = {
     niri = {
       enable = true;
       useNautilus = false;
     };
-    yazi.enable = true;
+    # yazi.enable = true;
   };
 
   environment.systemPackages = with pkgs; [
@@ -25,6 +29,8 @@
     fastfetch
     thunar
     phinger-cursors
+    pcre
+    yazi
   ];
 
   fonts.packages = with pkgs; [
@@ -42,6 +48,7 @@
       config.common.default = "*";
     };
     icons.enable = true;
+    mime.enable = true;
   };
 
   qt = {
