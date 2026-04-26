@@ -5,6 +5,10 @@
   boot.blacklistedKernelModules = [ "nouveau" ];
   nixpkgs.config.nvidia.acceptLicense = true;
 
+  environment.systemPackages = with pkgs; [
+    powertop
+  ];
+
   hardware = {
     graphics = {
       enable = true;
