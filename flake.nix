@@ -18,24 +18,38 @@
     zen-browser.url = "github:youwen5/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
-  };
-
-  outputs = { self, nixpkgs, home-manager, nix-alien, nix-index-database, ... }@inputs:
-  let
-    system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
-
-    spicetify = inputs.spicetify-nix.lib.${system}.mkSpicetify pkgs {};
-  in {
-    nixosConfigurations.Nixia = nixpkgs.lib.nixosSystem {
-      inherit system;
-      specialArgs = { inherit inputs; };
-
-      modules = [
-        ./configuration.nix
-        nix-index-database.nixosModules.default
-        home-manager.nixosModules.default
-      ];
+    quickshell = {
+      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
+
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      nix-alien,
+      nix-index-database,
+      quickshell,
+      ...
+    }@inputs:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+
+      spicetify = inputs.spicetify-nix.lib.${system}.mkSpicetify pkgs { };
+    in
+    {
+      nixosConfigurations.Nixia = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+
+        modules = [
+          ./configuration.nix
+          nix-index-database.nixosModules.default
+          home-manager.nixosModules.default
+        ];
+      };
+    };
 }
