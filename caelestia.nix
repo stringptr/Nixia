@@ -1,52 +1,72 @@
-{ inputs, pkgs, ... }:
+{
+  inputs,
+  options,
+  pkgs,
+  ...
+}:
 
 {
-  environment.systemPackages = with pkgs; [
-    quickshell
-    kdePackages.qtbase
-    kdePackages.qtdeclarative
-    kdePackages.qtmultimedia
-    kdePackages.qtsvg
-    kdePackages.qtwayland
-    kdePackages.qt5compat
-    libqalculate
-    libcava
-    aubio
-
-    hicolor-icon-theme
-    papirus-icon-theme
-  ];
-
-  services.upower.enable = true;
-
   programs = {
     nix-ld = {
       libraries = with pkgs; [
-        kdePackages.qtbase
-        kdePackages.qtdeclarative
-        kdePackages.qtmultimedia
-        kdePackages.qtsvg
-        kdePackages.qtwayland
-        kdePackages.qt5compat
         libqalculate
         libcava
         aubio
+        ddcutil
+        app2unit
+        lm_sensors
+        libqalculate
       ];
     };
   };
 
-  environment.sessionVariables = {
-    QML2_IMPORT_PATH = [
-      "/home/ia/.config/quickshell/caelestia_experimental/build/qml"
-      "/home/ia/.config/quickshell/caelestia_experimental/build/qml/"
-      "/home/ia/.config/quickshell/caelestia_experimental/build/"
-      "/home/ia/.config/quickshell/caelestia_experimental/build"
-      "${pkgs.quickshell}/lib/qt-6/qml"
+  services.upower.enable = true;
 
-      "${pkgs.papirus-icon-theme}/share"
-      "${pkgs.hicolor-icon-theme}/share"
-      "/run/current-system/sw/share"
-      "$HOME/.local/share"
+  environment = {
+    systemPackages = with pkgs; [
+      (inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default.withModules (
+        with pkgs;
+        [
+          qt6.qtdeclarative
+          qt6.qtmultimedia
+          qt6.qtsvg
+          qt6.qtbase
+          qt6.qtwayland
+          qt6.qt5compat
+        ]
+      ))
+
+      libqalculate
+      libcava
+      aubio
+      ddcutil
+      app2unit
+      lm_sensors
+      libqalculate
+
+      hicolor-icon-theme
+      papirus-icon-theme
+
+      kdePackages.breeze-icons
+      kdePackages.breeze
+
+      adwaita-icon-theme
+      kdePackages.kiconthemes
     ];
+
+    pathsToLink = [ "/share/icons" ];
+
+    sessionVariables = {
+      QML2_IMPORT_PATH = [
+        "/home/ia/.config/quickshell/caelestia_experimental/build/qml"
+
+        "${pkgs.papirus-icon-theme}/share"
+        "/run/current-system/sw/share"
+        "$HOME/.local/share"
+      ];
+
+      XCURSOR_THEME = "Papirus";
+      QS_ICON_THEME = "Papirus";
+    };
   };
 }
