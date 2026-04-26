@@ -25,6 +25,9 @@
     wl-clipboard
     chafa
     pulsemixer
+    v4l-utils
+    libv4l
+    btop
   ];
 
   programs = {
