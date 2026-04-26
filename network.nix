@@ -74,7 +74,7 @@
     wantedBy = [ "default.target" ];
 
     serviceConfig = {
-      ExecStart = "${pkgs.spoofdpi}/bin/spoofdpi --listen-addr 127.0.0.1:1080 --dns-addr 127.0.0.1:53";
+      ExecStart = "${pkgs.spoofdpi}/bin/spoofdpi --dns-mode udp --listen-addr 127.0.0.1:1080 --dns-addr 127.0.0.1:53";
       Restart = "on-failure";
       RestartSec = "5s";
     };
