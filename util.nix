@@ -2,7 +2,7 @@
 
 {
   environment.systemPackages = with pkgs; [
-    inputs.nix-alien.packages.${system}.nix-alien
+    inputs.nix-alien.packages.${stdenv.hostPlatform.system}.nix-alien
     e2fsprogs
     efibootmgr
     reptyr
