@@ -20,6 +20,7 @@
       enable = true;
       useNautilus = false;
     };
+    # dconf.enable = true;
     # yazi.enable = true;
   };
 
@@ -33,8 +34,13 @@
     fastfetch
     thunar
     phinger-cursors
-    pcre
+    pcre2
     yazi
+
+    kdePackages.breeze-icons
+    kdePackages.breeze
+
+    kdePackages.syntax-highlighting
   ];
 
   fonts.packages = with pkgs; [
@@ -44,6 +50,15 @@
     material-icons
     inter
   ];
+
+  programs = {
+    nix-ld = {
+      libraries = with pkgs; [
+        pcre2
+        kdePackages.syntax-highlighting
+      ];
+    };
+  };
 
   xdg = {
     portal = {
@@ -57,9 +72,11 @@
 
   qt = {
     enable = true;
-    platformTheme = "qt5ct";
-    style = "adwaita-dark";
+    platformTheme = "kde";
+    style = "breeze";
   };
 
-  gtk.iconCache.enable = true;
+  gtk = {
+    iconCache.enable = true;
+  };
 }
