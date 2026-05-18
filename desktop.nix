@@ -5,11 +5,6 @@
 }:
 
 {
-  imports =
-    [
-      # ./noctalia.nix
-      ./caelestia.nix
-    ];
 
   # nixpkgs.overlays = [ inputs.yazi.overlays.default ];
   # nix.settings.extra-substituters = [ "https://yazi.cachix.org" ];
@@ -33,7 +28,6 @@
     starship
     fastfetch
     thunar
-    phinger-cursors
     pcre2
     yazi
 
@@ -66,7 +60,6 @@
       extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
       config.common.default = "*";
     };
-    icons.enable = true;
     mime.enable = true;
   };
 

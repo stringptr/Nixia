@@ -1,6 +1,5 @@
 {
   inputs,
-  options,
   pkgs,
   ...
 }:
@@ -44,14 +43,11 @@
       lm_sensors
       libqalculate
 
-      hicolor-icon-theme
       papirus-icon-theme
 
       kdePackages.breeze-icons
       kdePackages.breeze
 
-      adwaita-icon-theme
-      kdePackages.kiconthemes
     ];
 
     pathsToLink = [ "/share/icons" ];

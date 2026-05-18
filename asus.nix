@@ -1,4 +1,7 @@
-{ inputs, pkgs, config, ... }:
+{
+  pkgs,
+  ...
+}:
 
 {
   services = {
