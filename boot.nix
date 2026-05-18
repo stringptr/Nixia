@@ -5,8 +5,20 @@
     inputs.nix-cachyos-kernel.overlays.pinned
   ];
 
-  nix.settings.substituters = [ "https://cache.garnix.io" "https://attic.xuyh0120.win/lantian" ];
-  nix.settings.trusted-public-keys = [ "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=" "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
+  nix.settings = {
+    substituters = [
+      "https://cache.nixos.org?priority=1"
+    ];
+
+    extra-substituters = [
+      "https://cache.garnix.io?priority=90"
+      "https://attic.xuyh0120.win/lantian?priority=90"
+    ];
+    extra-trusted-public-keys = [
+      "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+      "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
+    ];
+  };
 
   boot.initrd.systemd.enable = true;
   boot.kernel.sysctl = {
