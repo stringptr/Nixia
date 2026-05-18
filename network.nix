@@ -1,4 +1,7 @@
-{ config, lib, pkgs, ... }:
+{
+  pkgs,
+  ...
+}:
 
 {
   networking.networkmanager.enable = true;
@@ -9,7 +12,10 @@
     resolved = {
       enable = true;
       settings.Resolve = {
-        DNS = [ "127.0.0.1:53" "[::1]:53" ];
+        DNS = [
+          "127.0.0.1:53"
+          "[::1]:53"
+        ];
         FallbackDNS = [ "" ];
         DNSStubListener = true;
         DNSOverTLS = false;
@@ -26,8 +32,16 @@
     dnscrypt-proxy = {
       enable = true;
       settings = {
-        server_names = [ "quad9-dnscrypt-ip4-filter-ecs-pri" "quad9-dnscrypt-ip6-filter-ecs-pri" ];
-        listen_addresses = [ "127.0.0.1:53" "[::1]:53" ];
+        server_names = [
+          "quad9-dnscrypt-ip4-filter-ecs-pri"
+          "quad9-dnscrypt-ip6-filter-ecs-pri"
+        ];
+
+        listen_addresses = [
+          "127.0.0.1:53"
+          "[::1]:53"
+        ];
+
         enable_hot_reload = true;
         max_clients = 250;
         dnscrypt_servers = true;

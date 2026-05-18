@@ -1,7 +1,14 @@
-{ inputs, pkgs, config, ... }:
+{
+  pkgs,
+  config,
+  ...
+}:
 
 {
-  services.xserver.videoDrivers = [ "nvidia" "amdgpu" ];
+  services.xserver.videoDrivers = [
+    "nvidia"
+    "amdgpu"
+  ];
   boot.blacklistedKernelModules = [ "nouveau" ];
   nixpkgs.config.nvidia.acceptLicense = true;
 
@@ -53,8 +60,14 @@
     description = "Disable AMD CPU Turbo Boost";
 
     # Ensure it runs during boot and after a sleep/resume cycle
-    wantedBy = [ "multi-user.target" "post-resume.target" ];
-    after = [ "multi-user.target" "post-resume.target" ];
+    wantedBy = [
+      "multi-user.target"
+      "post-resume.target"
+    ];
+    after = [
+      "multi-user.target"
+      "post-resume.target"
+    ];
 
     serviceConfig = {
       Type = "oneshot";

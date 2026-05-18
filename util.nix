@@ -1,4 +1,9 @@
-{ options, inputs, pkgs, ... }:
+{
+  options,
+  inputs,
+  pkgs,
+  ...
+}:
 
 {
   environment.systemPackages = with pkgs; [

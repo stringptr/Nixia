@@ -1,4 +1,7 @@
-{ home-manager, pkgs, ... }:
+{
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -7,13 +10,32 @@
 
   users.users.ia = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" "power" "network" ];
+    extraGroups = [
+      "wheel"
+      "video"
+      "power"
+      "network"
+    ];
+
     uid = 1000;
     home = "/home/ia";
     createHome = false;
     shell = pkgs.fish;
-    subUidRanges = [{ startUid = 100000; count = 65536; }];
-    subGidRanges = [{ startGid = 100000; count = 65536; }];
+
+    subUidRanges = [
+      {
+        startUid = 100000;
+        count = 65536;
+      }
+    ];
+
+    subGidRanges = [
+      {
+        startGid = 100000;
+        count = 65536;
+      }
+    ];
+
     group = "ia";
   };
 
