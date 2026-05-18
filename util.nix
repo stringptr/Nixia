@@ -45,12 +45,12 @@
     };
     nix-ld = {
       enable = true;
-      libraries = options.programs.nix-ld.libraries.default ++ (
-        with pkgs; [
+      libraries =
+        options.programs.nix-ld.libraries.default
+        ++ (with pkgs; [
           gnused
           ripdrag
-        ]
-      );
+        ]);
     };
   };
 
