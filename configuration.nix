@@ -23,6 +23,7 @@
       "flakes"
     ];
 
+    optimise.automatic = true;
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -31,6 +32,7 @@
   time.timeZone = "Asia/Jakarta";
 
   services.libinput.enable = true;
+  services.dbus.implementation = "broker";
 
   system.stateVersion = "25.11"; # Did you read the comment?
 }
