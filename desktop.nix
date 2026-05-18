@@ -31,6 +31,7 @@
     starship
     fastfetch
     thunar
+    bibata-cursors
     pcre2
     yazi
 
@@ -46,6 +47,7 @@
     material-symbols
     material-icons
     inter
+    noto-fonts
   ];
 
   programs = {
