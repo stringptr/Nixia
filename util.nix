@@ -6,14 +6,23 @@
 }:
 
 {
+  nixpkgs.overlays = [
+    (self: super: {
+      btop = super.btop.override { cudaSupport = true; };
+    })
+  ];
+
   environment.systemPackages = with pkgs; [
     inputs.nix-alien.packages.${stdenv.hostPlatform.system}.nix-alien
+    comma
     e2fsprogs
     efibootmgr
     reptyr
     delta
     gnused
     brightnessctl
+    egl-wayland
+    libxcb
     bat
     bat-extras.batman
     fzf
@@ -32,6 +41,9 @@
     v4l-utils
     libv4l
     btop
+    television
+    ttfautohint
+    wget
   ];
 
   programs = {
