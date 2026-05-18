@@ -5,6 +5,9 @@
 }:
 
 {
+  imports = [
+    ./caelestia.nix
+  ];
 
   # nixpkgs.overlays = [ inputs.yazi.overlays.default ];
   # nix.settings.extra-substituters = [ "https://yazi.cachix.org" ];
