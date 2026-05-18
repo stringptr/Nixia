@@ -83,4 +83,9 @@
       '';
     };
   };
+
+  programs.nix-ld.libraries = with pkgs; [
+    config.boot.kernelPackages.nvidia_x11
+    stdenv.cc.cc.lib
+  ];
 }
