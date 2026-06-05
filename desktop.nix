@@ -27,7 +27,6 @@
     kitty
     foot
     clipse
-    inputs.zen-browser.packages.${stdenv.hostPlatform.system}.default
     starship
     fastfetch
     thunar
