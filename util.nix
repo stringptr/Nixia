@@ -44,6 +44,7 @@
     television
     ttfautohint
     wget
+    trash-cli
   ];
 
   programs = {
