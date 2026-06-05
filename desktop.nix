@@ -31,23 +31,28 @@
     starship
     fastfetch
     thunar
+    # phinger-cursors
     bibata-cursors
     pcre2
     yazi
 
+    # adwaita-qt6
     kdePackages.breeze-icons
     kdePackages.breeze
 
     kdePackages.syntax-highlighting
+    xwayland-satellite
   ];
 
   fonts.packages = with pkgs; [
     noto-fonts-color-emoji
     nerd-fonts.jetbrains-mono
+    # nerd-fonts.maple-mono
     material-symbols
     material-icons
     inter
     noto-fonts
+    inputs.iasevka.packages.${pkgs.stdenv.hostPlatform.system}.iasevka
   ];
 
   programs = {
@@ -57,6 +62,7 @@
         kdePackages.syntax-highlighting
       ];
     };
+    xwayland.enable = true;
   };
 
   xdg = {
@@ -66,6 +72,9 @@
       config.common.default = "*";
     };
     mime.enable = true;
+    mime.defaultApplications = {
+      "application/pdf" = "zen.desktop";
+    };
   };
 
   qt = {

@@ -25,6 +25,7 @@
 
     snitch.url = "github:karol-broda/snitch";
 
+    iasevka.url = "github:stringptr/iasevka";
   };
 
   outputs =
@@ -35,6 +36,7 @@
       nix-alien,
       nix-index-database,
       quickshell,
+      iasevka,
       ...
     }@inputs:
     let
