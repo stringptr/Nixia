@@ -1,7 +1,8 @@
 # Nixia
 
 NixOS flake-based configuration for a personal desktop/laptop.
-- **Version**: **26.05 (Yarara)**
+
+- **Version**: **26.11 (Zokor)**
 - **Channel**: **NixOS-Unstable**
 
 ![Desktop screenshot](./assets/screenshot.png)
