@@ -82,16 +82,50 @@
     spoofdpi
   ];
 
-  systemd.user.services.spoofdpi = {
-    description = "SpoofDPI AutoStart";
+  environment.variables = {
+    http_proxy = "http://127.0.0.1:1080";
+    https_proxy = "http://127.0.0.1:1080";
+  };
+
+  systemd.services.spoofdpiSimple = {
+    description = "SpoofDPI AutoStart with Simple Config";
     after = [ "network.target" ];
     wantedBy = [ "default.target" ];
 
     serviceConfig = {
-      ExecStart = "${pkgs.spoofdpi}/bin/spoofdpi --dns-mode udp --listen-addr 127.0.0.1:1080 --dns-addr 127.0.0.1:53";
+      # --dns-addr 127.0.0.1:53
+      ExecStart = "${pkgs.spoofdpi}/bin/spoofdpi --dns-mode udp --listen-addr 127.0.0.1:1080";
       Restart = "on-failure";
       RestartSec = "5s";
+      User = "root";
     };
   };
-}
 
+  systemd.services.spoofdpiSafe = {
+    description = "SpoofDPI AutoStart with Safer Config";
+    after = [ "network.target" ];
+    wantedBy = [ "default.target" ];
+
+    serviceConfig = {
+      # --dns-addr 127.0.0.1:53
+      ExecStart = "${pkgs.spoofdpi}/bin/spoofdpi --dns-mode udp --listen-addr 127.0.0.1:1081 --https-split-mode chunk --https-chunk-size 255 --https-disorder true --https-fake-count 255";
+      Restart = "on-failure";
+      RestartSec = "5s";
+      User = "root";
+    };
+  };
+
+  # systemd.services.byedpi = {
+  #   description = "ByeDPI AutoStart";
+  #   after = [ "network.target" ];
+  #   wantedBy = [ "default.target" ];
+  #
+  #   serviceConfig = {
+  #     # --dns-addr 127.0.0.1:53
+  #     ExecStart = "${pkgs.spoofdpi}/bin/spoofdpi --dns-mode udp --listen-addr 127.0.0.1:1080 --https-split-mode chunk --https-chunk-size 255 --https-disorder true --https-fake-count 255 --system-proxy true";
+  #     Restart = "on-failure";
+  #     RestartSec = "5s";
+  #     User = "root";
+  #   };
+  # };
+}
