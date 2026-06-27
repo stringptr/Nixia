@@ -5,6 +5,12 @@
 }:
 
 {
+  services = {
+    openssh = {
+      enable = true;
+    };
+  };
+
   programs = {
     neovim = {
       enable = true;
@@ -37,11 +43,20 @@
   virtualisation = {
     podman = {
       enable = true;
-      networkSocket.openFirewall = true;
+      # networkSocket.openFirewall = true;
+      dockerCompat = true;
+      dockerSocket = {
+        enable = true;
+      };
     };
 
-    docker = {
-      enable = true;
+    # docker = {
+    #   enable = true;
+    #   rootless = {
+    #     enable = true;
+    #     setSocketVariable = true;
+    #   };
+    # };
     };
   };
 
@@ -74,5 +89,6 @@
     dockmate
     sqlite
     abduco
+    qemu-utils
   ];
 }
