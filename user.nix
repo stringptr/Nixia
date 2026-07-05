@@ -15,6 +15,7 @@
       "video"
       "power"
       "network"
+      "audio"
     ];
 
     uid = 1000;

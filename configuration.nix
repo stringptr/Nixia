@@ -15,6 +15,7 @@
     ./application.nix
     ./multimedia.nix
     ./dev.nix
+    ./game.nix
   ];
 
   nix = {
