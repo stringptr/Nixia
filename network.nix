@@ -6,6 +6,11 @@
 {
   networking.networkmanager.enable = true;
   networking.networkmanager.dns = "systemd-resolved";
+  # networking.proxy = {
+  #   httpProxy = "https://127.0.0.1:1080";
+  #   httpsProxy = "http://127.0.0.1:1080";
+  #   noProxy = "127.0.0.1,localhost,.localdomain,whatsapp.net,whatsapp.com,.whatsapp.com,web.whatsapp.com";
+  # };
 
   hardware.bluetooth.enable = true;
   services = {
@@ -15,6 +20,7 @@
         DNS = [
           "127.0.0.1:53"
           "[::1]:53"
+          # "~."
         ];
         FallbackDNS = [ "" ];
         DNSStubListener = true;
@@ -26,7 +32,7 @@
 
     tailscale = {
       enable = true;
-      openFirewall = true;
+      openFirewall = false;
     };
 
     dnscrypt-proxy = {
@@ -60,6 +66,7 @@
         cache_max_ttl = 86400;
         cache_neg_min_ttl = 60;
         cache_neg_max_ttl = 600;
+
         broken_implementations.fragments_blocked = [
           "cisco"
           "cisco-ipv6"
@@ -75,17 +82,31 @@
         ];
       };
     };
+
+    # tor = {
+    #   enable = true;
+    #   client.enable = true;
+    #   settings = {
+    #     UseBridges = true;
+    #     ClientTransportPlugin = "obfs4 exec ${pkgs.obfs4}/bin/lyrebird";
+    #     Bridge = "obfs4 IP:ORPort [fingerprint]";
+    #   };
+    # };
   };
 
   environment.systemPackages = with pkgs; [
     net-tools
     spoofdpi
+    corkscrew
+    netcat-openbsd
+    # tor-browser
   ];
 
-  environment.variables = {
-    http_proxy = "http://127.0.0.1:1080";
-    https_proxy = "http://127.0.0.1:1080";
-  };
+  # environment.variables = {
+  #   http_proxy = "http://127.0.0.1:1080";
+  #   https_proxy = "http://127.0.0.1:1080";
+  #   noProxy = "127.0.0.1,localhost,.localdomain";
+  # };
 
   systemd.services.spoofdpiSimple = {
     description = "SpoofDPI AutoStart with Simple Config";
@@ -94,7 +115,7 @@
 
     serviceConfig = {
       # --dns-addr 127.0.0.1:53
-      ExecStart = "${pkgs.spoofdpi}/bin/spoofdpi --dns-mode udp --listen-addr 127.0.0.1:1080";
+      ExecStart = "${pkgs.spoofdpi}/bin/spoofdpi --dns-mode udp --listen-addr 127.0.0.1:1080 --dns-addr 127.0.0.1:53";
       Restart = "on-failure";
       RestartSec = "5s";
       User = "root";
@@ -108,7 +129,7 @@
 
     serviceConfig = {
       # --dns-addr 127.0.0.1:53
-      ExecStart = "${pkgs.spoofdpi}/bin/spoofdpi --dns-mode udp --listen-addr 127.0.0.1:1081 --https-split-mode chunk --https-chunk-size 255 --https-disorder true --https-fake-count 255";
+      ExecStart = "${pkgs.spoofdpi}/bin/spoofdpi --dns-mode udp --listen-addr 127.0.0.1:1081 --https-split-mode chunk --https-chunk-size 255 --https-disorder true --https-fake-count 255  --dns-addr 127.0.0.1:53";
       Restart = "on-failure";
       RestartSec = "5s";
       User = "root";
