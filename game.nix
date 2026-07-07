@@ -1,5 +1,6 @@
 {
   pkgs,
+  inputs,
   ...
 }:
 
@@ -9,6 +10,9 @@
   };
 
   security.rtkit.enable = true;
+  hardware.graphics.enable32Bit = true;
+
+  # programs.steam.enable = true;
 
   services.pipewire = {
     extraConfig.pipewire."99-low-latency-and-higher-resampling-quality" = {
@@ -34,8 +38,8 @@
         {
           name = "libpipewire-module-rt";
           args = {
-            "nice.level" = -11; # Sets the application thread priority
-            "rt.prio" = 5; # Sets the realtime priority of the data thread
+            "nice.level" = -11;
+            "rt.prio" = 5;
           };
           flags = [
             "ifexists"
@@ -47,14 +51,59 @@
   };
 
   environment.systemPackages = with pkgs; [
+    (lutris.override {
+      extraLibraries = pkgs: [ ];
+      extraPkgs = pkgs: [
+        gamemode
+        protontricks
+        winetricks
+        wineWow64Packages.full
+
+        openal-soft
+
+        mangohud
+        mangojuice
+
+        gamescope
+        umu-launcher
+        # inputs.prismlauncher.packages.${pkgs.system}.prismlauncher
+      ];
+    })
+
     gamemode
     protontricks
     winetricks
+    wineWow64Packages.full
 
     openal-soft
 
+    mangohud
+    mangojuice
+
     gamescope
     umu-launcher
-    lutris-free
+    (inputs.prismlauncher.packages.${pkgs.system}.prismlauncher.override {
+      jdks = [ temurin-jre-bin-21 ];
+    })
   ];
+
+  # programs = {
+  #   nix-ld = {
+  #     libraries = with pkgs; [
+  #       gamemode
+  #       protontricks
+  #       winetricks
+  #       wineWow64Packages.full
+  #
+  #       openal-soft
+  #
+  #       mangohud
+  #       mangojuice
+  #
+  #       gamescope
+  #       umu-launcher
+  #       vulkan-tools
+  #     ];
+  #   };
+  # };
 }

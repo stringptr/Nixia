@@ -26,6 +26,11 @@
     snitch.url = "github:karol-broda/snitch";
 
     iasevka.url = "github:stringptr/iasevka";
+
+    prismlauncher = {
+      url = "github:stringptr/PrismLauncher";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -37,6 +42,7 @@
       nix-index-database,
       quickshell,
       iasevka,
+      prismlauncher,
       ...
     }@inputs:
     let
