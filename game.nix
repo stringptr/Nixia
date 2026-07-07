@@ -87,23 +87,34 @@
     })
   ];
 
-  # programs = {
-  #   nix-ld = {
-  #     libraries = with pkgs; [
-  #       gamemode
-  #       protontricks
-  #       winetricks
-  #       wineWow64Packages.full
-  #
-  #       openal-soft
-  #
-  #       mangohud
-  #       mangojuice
-  #
-  #       gamescope
-  #       umu-launcher
-  #       vulkan-tools
-  #     ];
-  #   };
-  # };
+  programs = {
+    gamemode = {
+      enable = true;
+      enableRenice = true;
+    };
+
+    gamescope = {
+      enable = true;
+      enableWsi = true;
+      capSysNice = true;
+    };
+
+    #   nix-ld = {
+    #     libraries = with pkgs; [
+    #       gamemode
+    #       protontricks
+    #       winetricks
+    #       wineWow64Packages.full
+    #
+    #       openal-soft
+    #
+    #       mangohud
+    #       mangojuice
+    #
+    #       gamescope
+    #       umu-launcher
+    #       vulkan-tools
+    #     ];
+    #   };
+  };
 }
