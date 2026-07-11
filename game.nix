@@ -5,13 +5,20 @@
 }:
 
 {
-  boot.kernel.sysctl = {
-    "vm.max_map_count" = 2147483642;
+  boot = {
+    kernelModules = [
+      "ntsync"
+    ];
+
+    kernel.sysctl = {
+      "vm.max_map_count" = 2147483642;
+    };
   };
 
   systemd.settings.Manager = {
     DefaultLimitNOFILE = 524288;
   };
+
   security.pam.loginLimits = [
     {
       domain = "*";
@@ -71,6 +78,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    # faugus-launcher
 
     lutris-free
     gamemode
@@ -101,23 +109,5 @@
       enableWsi = true;
       capSysNice = true;
     };
-
-    #   nix-ld = {
-    #     libraries = with pkgs; [
-    #       gamemode
-    #       protontricks
-    #       winetricks
-    #       wineWow64Packages.full
-    #
-    #       openal-soft
-    #
-    #       mangohud
-    #       mangojuice
-    #
-    #       gamescope
-    #       umu-launcher
-    #       vulkan-tools
-    #     ];
-    #   };
   };
 }
