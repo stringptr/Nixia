@@ -6,6 +6,7 @@
 
 {
   imports = [
+    ./protege.nix
     ./azure.nix
   ];
 
