@@ -5,6 +5,10 @@
 }:
 
 {
+  imports = [
+    ./azure.nix
+  ];
+
   services = {
     openssh = {
       enable = true;
