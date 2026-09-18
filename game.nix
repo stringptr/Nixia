@@ -96,6 +96,8 @@
     (inputs.prismlauncher.packages.${pkgs.system}.prismlauncher.override {
       jdks = [ temurin-jre-bin-21 ];
     })
+
+    inputs.jovian.legacyPackages.${pkgs.system}.dmemcg-booster
   ];
 
   programs = {

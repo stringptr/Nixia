@@ -33,6 +33,11 @@
       url = "github:stringptr/PrismLauncher";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    jovian = {
+      url = "github:Jovian-Experiments/Jovian-NixOS/development";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -46,6 +51,7 @@
       quickshell,
       iasevka,
       prismlauncher,
+      jovian,
       ...
     }@inputs:
     let
