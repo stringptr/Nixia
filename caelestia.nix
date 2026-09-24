@@ -32,6 +32,8 @@
           qt6.qtbase
           qt6.qtwayland
           qt6.qt5compat
+
+          qt6.qtpositioning
         ]
       ))
 
@@ -54,7 +56,6 @@
 
     sessionVariables = {
       QML2_IMPORT_PATH = [
-        "/home/ia/.config/quickshell/caelestia_experimental/build/qml"
 
         "${pkgs.papirus-icon-theme}/share"
         "/run/current-system/sw/share"
