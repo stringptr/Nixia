@@ -41,6 +41,9 @@
 
     kdePackages.syntax-highlighting
     xwayland-satellite
+
+    wallust
+    matugen
   ];
 
   fonts.packages = with pkgs; [
@@ -59,6 +62,9 @@
       libraries = with pkgs; [
         pcre2
         kdePackages.syntax-highlighting
+
+        wallust
+        matugen
       ];
     };
     xwayland.enable = true;
