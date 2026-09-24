@@ -15,6 +15,7 @@
       "video"
       "power"
       "network"
+      "networkmanager"
       "audio"
     ];
 
