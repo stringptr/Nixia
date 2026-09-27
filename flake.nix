@@ -17,8 +17,13 @@
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
 
     # yazi.url = "github:sxyazi/yazi";
-    zen-browser.url = "github:youwen5/zen-browser-flake";
-    zen-browser.inputs.nixpkgs.follows = "nixpkgs";
+    zen-browser = {
+      # url = "github:youwen5/zen-browser-flake";
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     quickshell = {
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
