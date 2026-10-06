@@ -3,9 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
-    augustfirmware.url = "github:NixOS/nixpkgs/3043fb8cf49616fc4142a2da0343e85408918d60";
-
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -49,7 +46,6 @@
     {
       self,
       nixpkgs,
-      augustfirmware,
       home-manager,
       nix-alien,
       nix-index-database,
@@ -62,8 +58,6 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-      augustfirmwarePkgs = augustfirmware.legacyPackages.${system};
-
       spicetify = inputs.spicetify-nix.lib.${system}.mkSpicetify pkgs { };
     in
     {
@@ -72,14 +66,6 @@
         specialArgs = { inherit inputs; };
 
         modules = [
-          (_: {
-            nixpkgs.overlays = [
-              (final: prev: {
-                linux-firmware = augustfirmwarePkgs.linux-firmware;
-              })
-            ];
-          })
-
           ./configuration.nix
           nix-index-database.nixosModules.default
           home-manager.nixosModules.default
