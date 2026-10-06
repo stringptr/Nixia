@@ -1,4 +1,8 @@
-{ inputs, pkgs, ... }:
+{
+  inputs,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -11,7 +15,14 @@
     qpwgraph
     easyeffects
     lsp-plugins
-    obs-studio
+    (pkgs.wrapOBS {
+      plugins = with pkgs.obs-studio-plugins; [
+        obs-pipewire-audio-capture
+      ];
+    })
+    ffmpeg-full
+    libmysofa
+    libnotify
   ];
 
   services = {
@@ -26,12 +37,25 @@
     };
   };
 
+  programs = {
+    nix-ld = {
+      libraries = with pkgs; [
+        libmysofa
+      ];
+    };
+    gpu-screen-recorder = {
+      enable = true;
+      ui.enable = true;
+    };
+  };
+
   programs.spicetify =
     let
       spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
     in
     {
       enable = true;
+      wayland = true;
       enabledExtensions = with spicePkgs.extensions; [
         adblockify
       ];
