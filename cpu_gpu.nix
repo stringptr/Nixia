@@ -6,19 +6,23 @@
 
 {
   services.xserver.videoDrivers = [
-    "nvidia"
     "amdgpu"
+    "nvidia"
   ];
   boot.blacklistedKernelModules = [ "nouveau" ];
   nixpkgs.config.nvidia.acceptLicense = true;
 
   environment.systemPackages = with pkgs; [
     powertop
+    mesa-demos
   ];
 
   hardware = {
     graphics = {
       enable = true;
+      extraPackages = [
+        pkgs.mesa
+      ];
     };
 
     nvidia = {
@@ -37,7 +41,6 @@
 
     nvidia-container-toolkit.enable = true;
   };
-
 
   systemd.services.nvidia-mps = {
     description = "NVIDIA CUDA Multi-Process Service";
@@ -83,6 +86,8 @@
       '';
     };
   };
+
+  programs.rog-control-center.enable = true;
 
   programs.nix-ld.libraries = with pkgs; [
     config.boot.kernelPackages.nvidia_x11
