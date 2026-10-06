@@ -37,7 +37,7 @@
   # security.rtkit.enable = true;
   hardware.graphics.enable32Bit = true;
 
-  # programs.steam.enable = true;
+  programs.steam.enable = true;
 
   services.pipewire = {
     extraConfig.pipewire."99-low-latency-and-higher-resampling-quality" = {
@@ -93,9 +93,11 @@
 
     gamescope
     umu-launcher
-    (inputs.prismlauncher.packages.${pkgs.system}.prismlauncher.override {
-      jdks = [ temurin-jre-bin-21 ];
-    })
+    # (inputs.prismlauncher.packages.${pkgs.system}.prismlauncher.override {
+    #   jdks = [ temurin-jre-bin-21 ];
+    # })
+
+    protonplus
 
     inputs.jovian.legacyPackages.${pkgs.system}.dmemcg-booster
   ];
@@ -110,6 +112,14 @@
       enable = true;
       enableWsi = true;
       capSysNice = true;
+    };
+
+    # Amethyst Mod Manager
+    nix-ld = {
+      enable = true;
+      libraries = with pkgs; [
+        sqlite
+      ];
     };
   };
 }
