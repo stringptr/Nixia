@@ -1,6 +1,7 @@
 {
   pkgs,
   inputs,
+  lib,
   ...
 }:
 
@@ -8,6 +9,15 @@
   imports = [
     ./caelestia.nix
   ];
+
+  nix.settings = {
+    extra-substituters = [
+      "https://stringptr.cachix.org-1?priority=91"
+    ];
+    extra-trusted-public-keys = [
+      "stringptr.cachix.org-1:QqkadKBexul9n15fldZGqAoxos14/5PfHVoL6O91EKk="
+    ];
+  };
 
   # nixpkgs.overlays = [ inputs.yazi.overlays.default ];
   # nix.settings.extra-substituters = [ "https://yazi.cachix.org" ];
@@ -42,8 +52,13 @@
     kdePackages.syntax-highlighting
     xwayland-satellite
 
+    # xdg-desktop-portal-termfilechooser
+
     wallust
     matugen
+
+    glib
+    inputs.strata.packages.${pkgs.stdenv.hostPlatform.system}.strata
   ];
 
   fonts.packages = with pkgs; [
@@ -68,13 +83,34 @@
       ];
     };
     xwayland.enable = true;
+
+    # serpantinum.enable = false;
   };
+
+  environment.sessionVariables.XDG_DATA_DIRS = [
+    "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}"
+  ];
+
+  # environment.variables = {
+  #   GTK_USE_PORTAL = "1"; # legacy
+  #   GDK_DEBUG = "portals"; # termfilechooser
+  #   # QT_QPA_PLATFORMTHEME = "xdgdesktopportal";
+  #   TDESKTOP_USE_GTK_FILE_DIALOG = 1; # telegram
+  # };
 
   xdg = {
     portal = {
       enable = true;
-      extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
-      config.common.default = "*";
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gnome
+        # xdg-desktop-portal-termfilechooser
+      ];
+      config.common = {
+        default = "*";
+        # "org.freedesktop.impl.portal.FileChooser" = [ "termfilechooser" ]; # IMPORTANT!
+        # "org.freedesktop.impl.portal.ScreenCast" = "gnome";
+        # "org.freedesktop.impl.portal.Screenshot" = "gnome";
+      };
     };
     mime.enable = true;
     mime.defaultApplications = {
