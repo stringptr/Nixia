@@ -25,6 +25,12 @@
     nemu
     virtiofsd
     virt-viewer
+
+    _7zip-zstd
+    file
+
+    wl-mirror
+    jq
   ];
 
   virtualisation = {
