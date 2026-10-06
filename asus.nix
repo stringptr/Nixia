@@ -28,13 +28,13 @@
                 performance: [
                     (
                         fan: CPU,
-                        pwm: (0%, 30%, 40%, 50%, 65%, 85%, 90%, 95%),
+                        pwm: (0%, 30%, 50%, 70%, 80%, 85%, 90%, 95%),
                         temp: (45, 46, 50, 60, 65, 70, 75, 90),
                         enabled: true,
                     ),
                     (
                         fan: GPU,
-                        pwm: (0%, 30%, 40%, 50%, 65%, 85%, 90%, 95%),
+                        pwm: (0%, 30%, 50%, 70%, 80%, 85%, 90%, 95%),
                         temp: (45, 46, 50, 60, 65, 70, 75, 90),
                         enabled: true,
                     ),
@@ -67,7 +67,7 @@
             platform_profile_linked_epp: true,
             platform_profile_on_battery: Quiet,
             change_platform_profile_on_battery: true,
-            platform_profile_on_ac: Balanced,
+            platform_profile_on_ac: Performance,
             change_platform_profile_on_ac: true,
             profile_quiet_epp: Power,
             profile_balanced_epp: Power,
@@ -123,14 +123,54 @@
            # fi
            cp -f /etc/asusd/asusd.conf /etc/asusd/asusd.ron
            cp -f /etc/asusd/fan_curves.conf /etc/asusd/fan_curves.ron
-          /run/current-system/sw/bin/asusctl fan-curve --mod-profile quiet --fan gpu --data 43c:0%,46c:25%,60c:40%,65c:50%,70c:60%,75c:69%,80c:70%,90c:80%
-          /run/current-system/sw/bin/asusctl fan-curve --mod-profile quiet --fan cpu --data 43c:0%,46c:25%,60c:40%,65c:50%,70c:60%,75c:69%,80c:70%,90c:80%
-          /run/current-system/sw/bin/asusctl fan-curve --mod-profile balanced --fan cpu --data 43c:0%,46c:25%,60c:40%,65c:50%,70c:60%,75c:69%,80c:70%,90c:80%
-          /run/current-system/sw/bin/asusctl fan-curve --mod-profile balanced --fan gpu --data 43c:0%,46c:25%,60c:40%,65c:50%,70c:60%,75c:69%,80c:70%,90c:80%
-          /run/current-system/sw/bin/asusctl fan-curve --mod-profile performance --fan gpu --data 45c:0%,46c:30%,50c:40%,60c:50%,65c:65%,70c:85%,75c:90%,90c:95%
-          /run/current-system/sw/bin/asusctl fan-curve --mod-profile performance --fan cpu --data 45c:0%,46c:30%,50c:40%,60c:50%,65c:65%,70c:85%,75c:90%,90c:95%
-          /run/current-system/sw/bin/asusctl fan-curve --enable-fan-curves true --mod-profile quiet && asusctl fan-curve --enable-fan-curves true --mod-profile balanced && asusctl fan-curve --enable-fan-curves true --mod-profile performance
-          /run/current-system/sw/bin/asusctl battery limit 60
+          ${pkgs.asusctl}/bin/asusctl fan-curve --mod-profile quiet --fan gpu --data 43c:0%,46c:25%,60c:40%,65c:50%,70c:60%,75c:69%,80c:70%,90c:80%
+          ${pkgs.asusctl}/bin/asusctl fan-curve --mod-profile quiet --fan cpu --data 43c:0%,46c:25%,60c:40%,65c:50%,70c:60%,75c:69%,80c:70%,90c:80%
+          ${pkgs.asusctl}/bin/asusctl fan-curve --mod-profile balanced --fan cpu --data 43c:0%,46c:25%,60c:40%,65c:50%,70c:60%,75c:69%,80c:70%,90c:80%
+          ${pkgs.asusctl}/bin/asusctl fan-curve --mod-profile balanced --fan gpu --data 43c:0%,46c:25%,60c:40%,65c:50%,70c:60%,75c:69%,80c:70%,90c:80%
+          ${pkgs.asusctl}/bin/asusctl fan-curve --mod-profile performance --fan gpu --data 45c:0%,46c:30%,50c:40%,60c:50%,65c:65%,70c:85%,75c:90%,90c:95%
+          ${pkgs.asusctl}/bin/asusctl fan-curve --mod-profile performance --fan cpu --data 45c:0%,46c:30%,50c:40%,60c:50%,65c:65%,70c:85%,75c:90%,90c:95%
+          ${pkgs.asusctl}/bin/asusctl fan-curve --enable-fan-curves true --mod-profile quiet && asusctl fan-curve --enable-fan-curves true --mod-profile balanced && asusctl fan-curve --enable-fan-curves true --mod-profile performance
+          # /run/current-system/sw/bin/asusctl battery limit 60
+        ''}";
+      };
+    };
+
+    battery-charge-scheduler = {
+      description = "Dynamically set ASUS battery charge limit based on current charge";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "restart-asusd.service" ];
+
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = "${pkgs.writeShellScript "battery-charge-scheduler" ''
+          set -euo pipefail
+
+          # 1. Read current battery charge level
+          # Path may vary by hardware; commonly BAT0 or BAT1
+          CHARGE_FILE="/sys/class/power_supply/BAT0/capacity"
+          if [ ! -f "$CHARGE_FILE" ]; then
+            CHARGE_FILE="/sys/class/power_supply/BAT1/capacity"
+          fi
+
+          if [ ! -f "$CHARGE_FILE" ]; then
+            echo "Battery capacity file not found" >&2
+            exit 1
+          fi
+
+          CURRENT_CHARGE=$(cat "$CHARGE_FILE")
+
+          # 2. Decide the new limit based on charge level
+          if [ "$CURRENT_CHARGE" -le 60 ]; then
+            NEW_LIMIT=80
+          else
+            NEW_LIMIT=60
+          fi
+
+          # 3. Set the charge limit using asusctl
+          ${pkgs.asusctl}/bin/asusctl battery limit "$NEW_LIMIT"
+
+          echo "Battery at $CURRENT_CHARGE, charge limit set to $NEW_LIMIT"
         ''}";
       };
     };
