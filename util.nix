@@ -27,6 +27,7 @@
     bat-extras.batman
     fzf
     ripdrag
+    dragon-drop
     fd
     ripgrep
     zoxide
