@@ -55,6 +55,12 @@
       };
     };
 
+    containers.containersConf.settings = {
+      containers = {
+        log_driver = "k8s-file";
+      };
+    };
+
     # docker = {
     #   enable = true;
     #   rootless = {
