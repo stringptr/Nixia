@@ -23,6 +23,7 @@
       "nix-command"
       "flakes"
     ];
+    settings.warn-dirty = false;
 
     optimise.automatic = true;
   };
