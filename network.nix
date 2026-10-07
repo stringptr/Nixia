@@ -12,7 +12,11 @@
   #   noProxy = "127.0.0.1,localhost,.localdomain,whatsapp.net,whatsapp.com,.whatsapp.com,web.whatsapp.com";
   # };
 
-  hardware.bluetooth.enable = true;
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = false;
+  };
+
   services = {
     resolved = {
       enable = true;
