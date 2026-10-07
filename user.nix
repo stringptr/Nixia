@@ -5,7 +5,7 @@
 
 {
   imports = [
-    home-manager/core.nix
+    ./home-manager
   ];
 
   users.users.ia = {
