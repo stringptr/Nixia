@@ -10,35 +10,44 @@
 {
   home-manager.users.ia = {
 
-    home.preferXdgDirectories = true;
+    home = {
+      preferXdgDirectories = true;
 
-    home.packages = with pkgs; [
-      hicolor-icon-theme
-      papirus-icon-theme
+      packages = with pkgs; [
+        libqalculate
+        libcava
+        aubio
+        ddcutil
+        app2unit
+        lm_sensors
+        libqalculate
+        cliphist
 
-      kdePackages.breeze-icons
-      kdePackages.breeze
-    ];
+        hicolor-icon-theme
+        papirus-icon-theme
+
+        kdePackages.breeze-icons
+        kdePackages.breeze
+      ];
+    };
 
     programs = {
       quickshell = {
         enable = true;
-        package = (
-          inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default.withModules (
-            with pkgs;
-            [
-              qt6.qtdeclarative
-              qt6.qtmultimedia
-              qt6.qtsvg
-              qt6.qtbase
-              qt6.qtwayland
-              qt6.qt5compat
+        package = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default.withModules (
+          with pkgs;
+          [
+            qt6.qtdeclarative
+            qt6.qtmultimedia
+            qt6.qtsvg
+            qt6.qtbase
+            qt6.qtwayland
+            qt6.qt5compat
 
-              qt6.qtpositioning
-            ]
-          )
+            qt6.qtpositioning
+          ]
         );
-        activeConfig = "caelestia-experimental";
+        activeConfig = "caelestia";
         systemd.enable = true;
       };
     };
