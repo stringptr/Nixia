@@ -12,7 +12,7 @@
 
   nix.settings = {
     extra-substituters = [
-      "https://stringptr.cachix.org-1?priority=91"
+      "https://stringptr.cachix.org?priority=91"
     ];
     extra-trusted-public-keys = [
       "stringptr.cachix.org-1:QqkadKBexul9n15fldZGqAoxos14/5PfHVoL6O91EKk="
