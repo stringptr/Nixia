@@ -27,6 +27,8 @@
   boot.initrd.systemd.enable = true;
   boot.kernel.sysctl = {
     "vm.laptop_mode" = 5;
+    "vm.swappiness" = 15;
+    "vm.vfs_cache_pressure" = 75;
   };
 
   boot.loader = {
